@@ -56,7 +56,7 @@ export const Login = ({ setAutenticado, setNome, setId }) => {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <h1>Login</h1>
                         <Input error={errors.email?.message} name='email' register={register} placeholder='Coloque seu email' label='Email' />
-                        <Input error={errors.password?.message} name='password' register={register} placeholder='Coloque sua senha' label='Senha' />
+                        <Input type='password' error={errors.password?.message} name='password' register={register} placeholder='Coloque sua senha' label='Senha' />
                         <Button type='submit' whiteTheme>Entrar</Button>
                         <p>Ainda não tem uma conta? <span><Link to='/signin'>Faça seu cadastro</Link></span></p>
                     </form>

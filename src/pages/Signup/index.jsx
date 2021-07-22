@@ -15,7 +15,7 @@ export const Signup = () => {
     const history = useHistory();
 
     const schema = yup.object().shape({
-        name: yup.string().required('Campo obrigatório!'),
+        name: yup.string().required('Campo obrigatório!').max(24, 'Maximo de 24 caracteres'),
         email: yup.string().email('Email Invalido').required('Campo obrigatório!'),
         password: yup.string().min(8, 'Mínimo de 8 digitos').required('Campo obrigatório!'),
         passwordConfirm: yup.string().oneOf([yup.ref('password')], 'Senhas Diferentes').required('Campo obrigatório!'),
@@ -49,8 +49,8 @@ export const Signup = () => {
                         <h1>Cadastre-se</h1>
                         <Input error={errors.name?.message} name='name' register={register} placeholder='Coloque seu nome' label='Nome' />
                         <Input error={errors.email?.message} name='email' register={register} placeholder='Coloque seu email' label='Email' />
-                        <Input error={errors.password?.message} name='password' register={register} placeholder='Coloque sua senha' label='Senha' />
-                        <Input error={errors.passwordConfirm?.message} name='passwordConfirm' register={register} placeholder='Confirme sua senha' label='Confirmar Senha' />
+                        <Input type='password' error={errors.password?.message} name='password' register={register} placeholder='Coloque sua senha' label='Senha' />
+                        <Input type='password' error={errors.passwordConfirm?.message} name='passwordConfirm' register={register} placeholder='Confirme sua senha' label='Confirmar Senha' />
                         <Input error={errors.contact?.message} name='contact' register={register} placeholder='Coloque seu linkedin' label='Contato/Linkedin' />
                         <Input error={errors.course_module?.message} name='course_module' register={register} placeholder='Coloque o módulo que está' label='Módulo' />
                         <Button type='submit' whiteTheme>Criar Conta</Button>
