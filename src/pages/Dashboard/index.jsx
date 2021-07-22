@@ -1,12 +1,13 @@
-import { Redirect, useHistory } from "react-router-dom"
 import { Header } from "../../components/Header";
-import { Container, Tech, User } from "./style";
-import { Content } from "./style";
 import { Button } from '../../components/Button'
-import { useEffect, useState } from "react";
 import { ModalTec } from "../../components/Modal";
+import { Container, Tech, User, Content } from "./style";
 import api from "../../services/api";
+import { Redirect, useHistory } from "react-router-dom"
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import axios from "axios";
+const cancelTokenSource = axios.CancelToken.source();
 
 export const Dashboard = ({ autenticado, setAutenticado, nome, tec, id }) => {
 
@@ -16,12 +17,21 @@ export const Dashboard = ({ autenticado, setAutenticado, nome, tec, id }) => {
         JSON.parse(localStorage.getItem("@KenzieHub:token")) || ''
     )
 
-
     useEffect(() => {
-        api.get(`/users/${id}`)
+        showList()
+
+        return () => cancelTokenSource.cancel('')
+
+    }, []);
+
+    function showList() {
+        api.get(`/users/${id}`, {
+            cancelTokenSource
+        })
             .then((resp) => setShow(resp.data.techs))
             .catch((e) => console.log(e))
-    }, [])
+    }
+
 
     const history = useHistory()
 
@@ -31,8 +41,8 @@ export const Dashboard = ({ autenticado, setAutenticado, nome, tec, id }) => {
                 Authorization: `Bearer ${token}`
             }
         })
-        .then((_) => setShow(show.filter((elm) => elm.id !== id)))
-        .catch((e) => console.log(e))
+            .then((_) => setShow(show.filter((elm) => elm.id !== id)))
+            .catch((e) => console.log(e))
     }
 
     console.log(tec)
@@ -62,7 +72,7 @@ export const Dashboard = ({ autenticado, setAutenticado, nome, tec, id }) => {
                         <Button onClick={() => show.length < 8 ? history.push('/addtech') : toast.error('Você atingiu o limite de tecnologias :(')}>Adicionar Tecnologia</Button>
                     </Tech>
                     <section>
-                        {show.map((elm, i) => <ModalTec id={elm.id} show={show} deleteTech={deleteTech} title={elm.title} status={elm.status} />)}
+                        {show.map((elm, i) => <ModalTec key={i} id={elm.id} show={show} deleteTech={deleteTech} title={elm.title} status={elm.status} />)}
                     </section>
                 </Content>
             </Container>
