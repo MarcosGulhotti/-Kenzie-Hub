@@ -35,7 +35,7 @@ export const Dashboard = ({ autenticado, setAutenticado, nome, tec, id }) => {
 
     const history = useHistory()
 
-    const deleteTech = () => {
+    const deleteTech = (id) => {
         api.delete(`/users/techs/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
