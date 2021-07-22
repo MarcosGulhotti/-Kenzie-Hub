@@ -13,18 +13,18 @@ export const Dashboard = ({ autenticado, setAutenticado, nome, tec, id }) => {
 
     const [show, setShow] = useState([])
 
+
     const [token] = useState(
         JSON.parse(localStorage.getItem("@KenzieHub:token")) || ''
     )
 
     useEffect(() => {
-        showList()
+        teste()
+        return () => { cancelTokenSource.cancel('') }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
-        return () => cancelTokenSource.cancel('')
-
-    }, []);
-
-    function showList() {
+    function teste() {
         api.get(`/users/${id}`, {
             cancelTokenSource
         })
@@ -35,7 +35,7 @@ export const Dashboard = ({ autenticado, setAutenticado, nome, tec, id }) => {
 
     const history = useHistory()
 
-    const deleteTech = (id) => {
+    const deleteTech = () => {
         api.delete(`/users/techs/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`

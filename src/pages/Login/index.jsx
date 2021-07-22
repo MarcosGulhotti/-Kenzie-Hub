@@ -10,7 +10,7 @@ import api from '../../services/api'
 import toast from "react-hot-toast";
 
 
-export const Login = ({setAutenticado, setNome, setId}) => {
+export const Login = ({ setAutenticado, setNome, setId }) => {
 
     const history = useHistory();
 
@@ -42,9 +42,9 @@ export const Login = ({setAutenticado, setNome, setId}) => {
             setNome(resp.data.user.name)
 
             toast.success(`Bem vindo ${resp.data.user.name}`)
-            
+
             history.push(`/dashboard`);
-            
+
         }).catch((e) => toast.error('Email ou senha inválidos'))
     }
 
